@@ -1,0 +1,34 @@
+name: Compare Bots JSON
+
+# Quando esse workflow será executado
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Configurar os jobs (tarefas) que serão executados
+jobs:
+  compare-bots:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checar o código do repositório
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    # 2. Instalar Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    # 3. Instalar dependências
+    - name: Install dependencies
+      run: npm install
+
+    # 4. Rodar o script de comparação
+    - name: Run bot comparison script
+      run: node compareBots.js
