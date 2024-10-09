@@ -50,8 +50,8 @@ const diff = deepDiff(bot1Normalized, bot2Normalized);
 
 // Verificar se há diferenças
 if (diff) {
-  console.log("Diferenças encontradas:");
-  console.log(JSON.stringify(diff, null, 4));
+  fs.writeFileSync('bot_comparasion_result.json', JSON.stringify(diff, null, 4));
+  console.log("Diferenças encontradas. Resultado salvo em bot_comparasion_result.json");
 } else {
   console.log("Os bots são idênticos após a normalização.");
 }
