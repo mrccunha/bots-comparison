@@ -44,24 +44,3 @@ jobs:
       with:
         name: bot-comparison-result
         path: bot_comparison_result.json
-
-    # 6. Enviando EMail personalizado
-    - name: Notify Teams on completion
-      if: always()  # Executar sempre, independente do sucesso ou falha
-      run: |
-      curl -H 'Content-Type: application/json' \
-  -d '{
-  "@type": "MessageCard", 
-  "@context": "http://schema.org/extensions",
-  "summary": "Comparação de Bots",
-  "themeColor": "${{ job.status == 'success' ? '00FF00' : 'FF0000' }}",
-  "sections": [{
-  "activityTitle": "Workflow: ${{ github.workflow }}",
-  "activitySubtitle": "Branch: ${{ github.ref_name }}",
-  "activityText": "Status: ${{ job.status }}",
-  "facts": [
-          {"name": "Commit", "value": "${{ github.sha }}"},
-          {"name": "Resultado", "value": "Arquivo gerado: bot_comparison_result_filtered.json"}
-  ]
-  }]
-  }' ${{ secrets.TEAMS_WEBHOOK_URL }}
