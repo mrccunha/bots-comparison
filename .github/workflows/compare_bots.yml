@@ -1,46 +1,53 @@
-name: Compare Bots JSON
+name: Compare Production and Staging Bots
 
-# Quando esse workflow será executado
 on:
   push:
     branches:
-      - main
-      - develop
-      - 'feature/**' #Qualquer branch que comece com 'feature/'
+      - main  # Produção
+      - homolog  # Homologação
   pull_request:
     branches:
       - main
-      - develop
-      - 'feature/**'
+      - homolog
 
-# Configurar os jobs (tarefas) que serão executados
 jobs:
   compare-bots:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checar o código do repositório
-    - name: Check out repository
+    # Checkout do arquivo de produção na branch main
+    - name: Check out production bot from main
       uses: actions/checkout@v4
+      with:
+        ref: main  # Faz o checkout da branch de produção
+    - name: Copy production bot
+      run: cp bots/export_builder_prod.json ./export_builder_prod.json
 
-    # 2. Instalar Node.js
+    # Checkout do arquivo de homologação na branch homolog
+    - name: Check out staging bot from homolog
+      uses: actions/checkout@v4
+      with:
+        ref: homolog  # Faz o checkout da branch de homologação
+    - name: Copy staging bot
+      run: cp bots/export_builder_homolog.json ./export_builder_homolog.json
+
+    # Instalar Node.js
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    # 3. Instalar dependências
+    # Instalar dependências
     - name: Install dependencies
       run: npm install
 
-    # 4. Rodar o script de comparação
+    # Executar o script de comparação
     - name: Run bot comparison script
       run: node compareBots.js
 
-    # 5. Upload do resultado
+    # Fazer upload do resultado da comparação
     - name: Upload comparison result
-      if: success() || failure() # Executa independentemente do resultado
       uses: actions/upload-artifact@v4
       with:
-        name: bot-comparison-result
-        path: bot_comparison_result.json
+        name: bot-comparison-prod-vs-homolog
+        path: bot_comparison_prod_vs_homolog.json
