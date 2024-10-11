@@ -6,4 +6,4 @@ package.json
 package-lock.json
 
 # Ignorar arquivo 
-compareBots.js
+# compareBots.js
