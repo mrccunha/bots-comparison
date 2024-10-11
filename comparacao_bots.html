@@ -9,16 +9,29 @@
             font-family: Arial, sans-serif;
             margin: 20px;
             line-height: 1.6;
+            background-color: #f9f9f9;
         }
         .container {
             max-width: 800px;
             margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
         }
         .diff-item {
-            padding: 10px;
+            padding: 15px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .diff-item:hover {
+            background-color: #f0f0f0;
         }
         .added {
             background-color: #e0ffe0; /* Verde claro para adições */
@@ -38,26 +51,49 @@
             font-family: monospace;
             white-space: pre-wrap;
         }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            text-align: center;
+            font-size: 1.2em;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Comparação de Bots</h1>
+    <div class="loading" id="loading-message">Carregando diferenças...</div>
     <div id="comparison-result"></div>
+    <button onclick="location.reload();">Atualizar Comparação</button>
 </div>
 
 <script>
     // Função para carregar e exibir as diferenças
     function displayDiffs(diffs) {
         const resultContainer = document.getElementById('comparison-result');
+        const loadingMessage = document.getElementById('loading-message');
+        loadingMessage.style.display = 'none'; // Esconder a mensagem de carregamento
+
         diffs.forEach(diff => {
             const diffItem = document.createElement('div');
             diffItem.classList.add('diff-item');
             
             const path = document.createElement('div');
             path.classList.add('path');
-            path.textContent = `Path: ${diff.path.join(' -> ')}`;
+            path.textContent = `Caminho: ${diff.path.join(' -> ')}`;
             
             diffItem.appendChild(path);
             
@@ -90,7 +126,7 @@
     }
 
     // Carregar o arquivo JSON e exibir as diferenças
-    fetch('bot_comparison_prod_vs_homolog.json')  // Caminho do arquivo JSON
+    fetch('bot_comparison_prod_vs_homolog.json')
         .then(response => response.json())
         .then(data => {
             displayDiffs(data);
