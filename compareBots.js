@@ -61,14 +61,14 @@ const diff = deepDiff(botProdNormalized, botHomologNormalized);
 
 // Verificar se há diferenças
 if (diff) {
-  fs.writeFileSync('bot_comparison_result.json', JSON.stringify(diff, null, 4));
+  fs.writeFileSync('bot_comparison_prod_vs_homolog.json', JSON.stringify(diff, null, 4));
   //fs.writeFileSync('bot_normalized_1.json', JSON.stringify(botProdNormalized, null, 4));
   //fs.writeFileSync('bot_normalized_2.json', JSON.stringify(botHomologNormalized, null, 4));
   //fs.writeFileSync('botDialogs_1.json', JSON.stringify(botProdDialogs, null, 4));
   //fs.writeFileSync('botDialogs_2.json', JSON.stringify(botHomologDialogs, null, 4));
-  console.log("Diferenças encontradas. Resultado salvo em bot_comparison_result.json");
+  console.log("Diferenças encontradas entre os bots de produção e homologação. Resultado salvo em bot_comparison_prod_vs_homolog.json");
 } else {
   //fs.writeFileSync('bot_normalized_1.json', JSON.stringify(bot1Normalized, null, 4));
   //fs.writeFileSync('bot_normalized_2.json', JSON.stringify(bot2Normalized, null, 4));
-  console.log("Os bots são idênticos após a normalização.");
+  console.log("Os bots de produção e homologação são idênticos após a normalização.");
 }
