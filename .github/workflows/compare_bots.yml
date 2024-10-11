@@ -1,43 +1,20 @@
-name: Compara as versões dos Bots em Produção e Homologação
+name: Gerar Comparação de Bots
 
 on:
   push:
     branches:
-      - main  # Produção
-      - homolog  # Homologação
-  pull_request:
-    branches:
-      - main
-      - homolog
+      - homolog  # Rodar o workflow ao fazer push na branch homolog
 
 jobs:
   compare-bots:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout da branch de produção (main)
-    - name: Check out production bot from main
+    # Checkout do código
+    - name: Check out the code
       uses: actions/checkout@v4
       with:
-        ref: main  # Faz o checkout da branch de produção (main)
-
-    # Mover o arquivo de produção para um local temporário
-    - name: Save production bot
-      run: mv bots/export_builder_prod.json /tmp/export_builder_prod.json
-
-    # Checkout da branch de homologação (homolog)
-    - name: Check out staging bot from homolog
-      uses: actions/checkout@v4
-      with:
-        ref: homolog  # Faz o checkout da branch de homologação (homolog)
-
-    # Mover o arquivo de produção de volta para o diretório de trabalho
-    - name: Retrieve production bot
-      run: mv /tmp/export_builder_prod.json ./export_builder_prod.json
-
-    # Copiar o arquivo de homologação para o diretório de trabalho
-    - name: Copy staging bot
-      run: cp bots/export_builder_homolog.json ./export_builder_homolog.json
+        ref: homolog  # Checkout da branch homolog
 
     # Instalar Node.js
     - name: Set up Node.js
@@ -45,7 +22,7 @@ jobs:
       with:
         node-version: '20'
 
-    # Instalar dependências
+    # Instalar dependências do projeto (se houver)
     - name: Install dependencies
       run: npm install
 
@@ -53,13 +30,6 @@ jobs:
     - name: Run bot comparison script
       run: node compareBots.js
 
-    # Listar arquivos no workflow
+    # Listar arquivos no diretório para garantir que o arquivo foi gerado
     - name: List files after comparison
       run: ls -la bots/comparisons
-
-    # Fazer upload do resultado da comparação
-    - name: Upload comparison result
-      uses: actions/upload-artifact@v4
-      with:
-        name: bot-comparison-prod-vs-homolog
-        path: bot_comparison_prod_vs_homolog.json
