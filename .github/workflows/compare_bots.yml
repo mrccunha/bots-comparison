@@ -25,7 +25,7 @@ jobs:
 
     # 3. Copiar o arquivo de produção para o diretório atual
     - name: Copy production bot file
-      run: cp prod_bot/bots/production/export_builder_prod.json bots/production/export_builder_prod.json
+      run: cp bots/export_builder_prod.json bots/export_builder_prod.json
 
     # 4. Instalar dependências do projeto
     - name: Install dependencies
