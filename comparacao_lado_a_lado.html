@@ -24,6 +24,22 @@
             text-align: center;
             color: #333;
         }
+        .filter-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .filter-buttons button {
+            margin: 0 5px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .filter-buttons button:hover {
+            background-color: #0056b3;
+        }
         .diff-item {
             padding: 15px;
             margin-bottom: 10px;
@@ -33,6 +49,15 @@
         }
         .diff-item:hover {
             background-color: #f0f0f0;
+        }
+        .added {
+            background-color: #e0ffe0; /* Verde claro para adições */
+        }
+        .edited {
+            background-color: #fffacd; /* Amarelo claro para edições */
+        }
+        .removed {
+            background-color: #ffe0e0; /* Vermelho claro para remoções */
         }
         .path {
             font-weight: bold;
@@ -44,45 +69,80 @@
 
 <div class="container">
     <h1>Comparação de Bots</h1>
+    
+    <!-- Filtros -->
+    <div class="filter-buttons">
+        <button onclick="filterDiffs('all')">Mostrar Todos</button>
+        <button onclick="filterDiffs('added')">Mostrar Apenas Adições</button>
+        <button onclick="filterDiffs('edited')">Mostrar Apenas Edições</button>
+        <button onclick="filterDiffs('removed')">Mostrar Apenas Remoções</button>
+    </div>
+    
     <div id="comparison-result"></div>
 </div>
 
 <script>
+    let allDiffs = [];  // Armazenar todas as diferenças
+
     // Função para carregar e exibir as diferenças
     function displayDiffs(diffs) {
         const resultContainer = document.getElementById('comparison-result');
         resultContainer.innerHTML = '';  // Limpar o conteúdo anterior
+        allDiffs = diffs;  // Armazenar todas as diferenças para filtrar depois
 
-        diffs.forEach(diff => {
-            const diffItem = document.createElement('div');
-            diffItem.classList.add('diff-item');
-            
-            const path = document.createElement('div');
-            path.classList.add('path');
-            path.textContent = `Caminho: ${diff.path.join(' -> ')}`;
-            
-            diffItem.appendChild(path);
-            
-            let colorDiff;
-            if (diff.kind === 'A') {
-                colorDiff = diff.item.rhs;  // Adições
-            } else if (diff.kind === 'E') {
-                // Edições: comparar lhs e rhs
-                const lhs = JSON.stringify(diff.lhs, null, 2);
-                const rhs = JSON.stringify(diff.rhs, null, 2);
-                colorDiff = Diff.diffLines(lhs, rhs).map(part => {
-                    const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
-                    return `<span style="color:${color};">${part.value}</span>`;
-                }).join('');
-            } else if (diff.kind === 'D') {
-                colorDiff = diff.lhs;  // Remoções
+        filterDiffs('all');  // Mostrar todos inicialmente
+    }
+
+    // Função para filtrar as diferenças
+    function filterDiffs(filter) {
+        const resultContainer = document.getElementById('comparison-result');
+        resultContainer.innerHTML = '';  // Limpar o conteúdo anterior
+
+        allDiffs.forEach(diff => {
+            let showDiff = false;
+
+            if (filter === 'all') {
+                showDiff = true;  // Mostrar todas as diferenças
+            } else if (filter === 'added' && diff.kind === 'A') {
+                showDiff = true;  // Mostrar apenas adições
+            } else if (filter === 'edited' && diff.kind === 'E') {
+                showDiff = true;  // Mostrar apenas edições
+            } else if (filter === 'removed' && diff.kind === 'D') {
+                showDiff = true;  // Mostrar apenas remoções
             }
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.innerHTML = colorDiff; // Adicionar o conteúdo estilizado
-            diffItem.appendChild(contentDiv);
-            
-            resultContainer.appendChild(diffItem);
+
+            if (showDiff) {
+                const diffItem = document.createElement('div');
+                diffItem.classList.add('diff-item');
+
+                const path = document.createElement('div');
+                path.classList.add('path');
+                path.textContent = `Caminho: ${diff.path.join(' -> ')}`;
+
+                diffItem.appendChild(path);
+
+                let colorDiff;
+                if (diff.kind === 'A') {
+                    colorDiff = diff.item.rhs;  // Adições
+                    diffItem.classList.add('added');
+                } else if (diff.kind === 'E') {
+                    const lhs = JSON.stringify(diff.lhs, null, 2);
+                    const rhs = JSON.stringify(diff.rhs, null, 2);
+                    colorDiff = Diff.diffLines(lhs, rhs).map(part => {
+                        const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+                        return `<span style="color:${color};">${part.value}</span>`;
+                    }).join('');
+                    diffItem.classList.add('edited');
+                } else if (diff.kind === 'D') {
+                    colorDiff = diff.lhs;  // Remoções
+                    diffItem.classList.add('removed');
+                }
+
+                const contentDiv = document.createElement('div');
+                contentDiv.innerHTML = colorDiff; // Adicionar o conteúdo estilizado
+                diffItem.appendChild(contentDiv);
+                resultContainer.appendChild(diffItem);
+            }
         });
     }
 
