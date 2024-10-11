@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparação Lado a Lado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .file-container {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            background-color: #fff;
+            overflow-y: auto;
+            height: 80vh; /* Altura fixa com rolagem */
+        }
+        .file-container:last-child {
+            margin-right: 0; /* Remove a margem do último */
+        }
+        .title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        pre {
+            white-space: pre-wrap; /* Preserve espaços e quebras de linha */
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="file-container" id="production-file">
+        <div class="title">Bot em Produção</div>
+        <pre id="production-content">Carregando...</pre>
+    </div>
+    <div class="file-container" id="homolog-file">
+        <div class="title">Bot em Homologação</div>
+        <pre id="homolog-content">Carregando...</pre>
+    </div>
+</div>
+
+<script>
+    // Função para carregar o conteúdo dos arquivos e exibi-los lado a lado
+    function loadFile(filePath, elementId) {
+        fetch(filePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro ao carregar ${filePath}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById(elementId).textContent = JSON.stringify(data, null, 4);
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById(elementId).textContent = 'Erro ao carregar o arquivo.';
+            });
+    }
+
+    // Carregar os arquivos de produção e homologação
+    loadFile('bots/production/export_builder_prod.json', 'production-content');
+    loadFile('bots/staging/export_builder_homolog.json', 'homolog-content');
+</script>
+
+</body>
+</html>
