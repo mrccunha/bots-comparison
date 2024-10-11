@@ -61,8 +61,8 @@ jobs:
         path: bot_comparison_prod_vs_homolog.json
     
     # mostra diretorio
-    - name: Show current directory
-      run: pwd
+    - name: List files in bots/comparisons directory
+      run: ls -la bots/comparisons
 
     # Faz o commit do arquivo na branch gh-pages
     - name: Commit comparison result
