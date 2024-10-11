@@ -71,5 +71,4 @@ jobs:
         git config --local user.name "Mauro Cunha"
         git add /home/runner/work/bots-comparison/bots-comparison/bots/bot_comparison_prod_vs_homolog.json
         git commit -m "Adiciona resultado da comparação entre bots de produção e homologação"
-        git push origin gh-pages
-
+        git push origin homolog
