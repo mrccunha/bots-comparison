@@ -3,7 +3,7 @@ name: Mover arquivo de comparação para gh-pages
 on:
   push:
     branches:
-      - homolog  # Acionar quando houver push na branch homolog
+      - main  # Acionar quando houver push na branch homolog
 
 jobs:
   move-file:

@@ -1,35 +1,55 @@
-name: Gerar Comparação de Bots
+name: Comparar Bots de Produção e Homologação
 
 on:
   push:
     branches:
-      - homolog  # Rodar o workflow ao fazer push na branch homolog
+      - homolog  # O workflow é acionado sempre que houver um push na branch homolog
 
 jobs:
   compare-bots:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout do código
-    - name: Check out the code
+    # 1. Checkout da branch homolog (onde o arquivo de homologação está)
+    - name: Checkout homolog branch
       uses: actions/checkout@v4
       with:
-        ref: homolog  # Checkout da branch homolog
+        ref: homolog
 
-    # Instalar Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
+    # 2. Checkout da branch main (onde o arquivo de produção está)
+    - name: Checkout main branch to get production bot
+      uses: actions/checkout@v4
       with:
-        node-version: '20'
+        ref: main
+        path: prod_bot  # Colocar o conteúdo da main em um diretório temporário "prod_bot"
 
-    # Instalar dependências do projeto (se houver)
+    # 3. Copiar o arquivo de produção para o diretório atual
+    - name: Copy production bot file
+      run: cp prod_bot/bots/production/export_builder_prod.json bots/production/export_builder_prod.json
+
+    # 4. Instalar dependências do projeto
     - name: Install dependencies
       run: npm install
 
-    # Executar o script de comparação
+    # 5. Executar o script de comparação
     - name: Run bot comparison script
       run: node compareBots.js
 
-    # Listar arquivos no diretório para garantir que o arquivo foi gerado
-    - name: List files after comparison
-      run: ls -la bots/comparisons
+    # 6. Fazer o checkout da branch gh-pages para salvar o arquivo de comparação
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+
+    # 7. Mover o arquivo de comparação gerado para a branch gh-pages
+    - name: Copy comparison result to gh-pages
+      run: cp bots/bot_comparison_prod_vs_homolog.json ./  # Copia o arquivo para a raiz da branch gh-pages
+
+    # 8. Fazer o commit e push para a branch gh-pages
+    - name: Commit and push comparison result to gh-pages
+      run: |
+        git config --local user.email "mrccunha@gmail.com"
+        git config --local user.name "Mauro Cunha"
+        git add bot_comparison_prod_vs_homolog.json
+        git commit -m "Atualiza arquivo de comparação entre bots"
+        git push origin gh-pages
