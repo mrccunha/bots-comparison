@@ -18,7 +18,7 @@ jobs:
 
     # Listar os arquivos para garantir que o arquivo de comparação foi gerado
     - name: List files
-      run: ls -la bots/comparisons
+      run: ls -la 
 
     # Configurar as credenciais do Git
     - name: Set up Git
