@@ -1,0 +1,44 @@
+name: Mover arquivo de comparação para gh-pages
+
+on:
+  push:
+    branches:
+      - homolog  # Acionar quando houver push na branch homolog
+
+jobs:
+  move-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout da branch homolog (onde o arquivo é gerado)
+    - name: Checkout homolog branch
+      uses: actions/checkout@v4
+      with:
+        ref: homolog
+
+    # Listar os arquivos para garantir que o arquivo de comparação foi gerado
+    - name: List files
+      run: ls -la bots/comparisons
+
+    # Configurar as credenciais do Git
+    - name: Set up Git
+      run: |
+        git config --local user.email "mrccunha@gmail.com"
+        git config --local user.name "Mauro Cunha"
+
+    # Mudar para a branch gh-pages
+    - name: Checkout gh-pages branch
+      run: git checkout gh-pages
+
+    # Mover o arquivo de comparação para a branch gh-pages
+    - name: Copy comparison file
+      run: |
+        cp bot_comparison_prod_vs_homolog.json ./  # Copia para o diretório raiz da gh-pages
+
+    # Adicionar e comitar o arquivo na branch gh-pages
+    - name: Commit and push to gh-pages
+      run: |
+        git add bot_comparison_prod_vs_homolog.json
+        git commit -m "Atualiza arquivo de comparação"
+        git push origin gh-pages
+        

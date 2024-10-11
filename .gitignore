@@ -1,6 +1,5 @@
 # Ignorar diretórios
 node_modules/
-.github/
 
 # Ignorar arquivos de pacotes, se não for necessário
 package.json
