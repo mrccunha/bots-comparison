@@ -59,3 +59,13 @@ jobs:
       with:
         name: bot-comparison-prod-vs-homolog
         path: bot_comparison_prod_vs_homolog.json
+
+    # Faz o commit do arquivo na branch gh-pages
+    - name: Commit comparison result
+      run: |
+        git config --local user.email "you@example.com"
+        git config --local user.name "Your Name"
+        git add bots/bot_comparison_prod_vs_homolog.json
+        git commit -m "Adiciona resultado da comparação entre bots de produção e homologação"
+        git push origin gh-pages
+      
