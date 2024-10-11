@@ -60,6 +60,14 @@ jobs:
         name: bot-comparison-prod-vs-homolog
         path: bot_comparison_prod_vs_homolog.json
 
+    # Verifica se o arquivo foi gerado
+    - name: List files after comparison
+      run: ls -la bots/comparisons
+
+    # mostra diretorio
+    - name: Show current directory
+      run: pwd
+
     # Faz o commit do arquivo na branch gh-pages
     - name: Commit comparison result
       run: |
@@ -68,4 +76,4 @@ jobs:
         git add bots/bot_comparison_prod_vs_homolog.json
         git commit -m "Adiciona resultado da comparação entre bots de produção e homologação"
         git push origin gh-pages
-      
+
