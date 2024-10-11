@@ -33,11 +33,11 @@ jobs:
 
     # Mover o arquivo de produção de volta para o diretório de trabalho
     - name: Retrieve production bot
-      run: mv /tmp/export_builder_prod.json bots/export_builder_prod.json
+      run: mv /tmp/export_builder_prod.json ./export_builder_prod.json
 
     # Copiar o arquivo de homologação para o diretório de trabalho
     - name: Copy staging bot
-      run: cp bots/export_builder_homolog.json bots/export_builder_homolog.json
+      run: cp bots/export_builder_homolog.json ./export_builder_homolog.json
 
     # Instalar Node.js
     - name: Set up Node.js
