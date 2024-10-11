@@ -59,11 +59,7 @@ jobs:
       with:
         name: bot-comparison-prod-vs-homolog
         path: bot_comparison_prod_vs_homolog.json
-
-    # Verifica se o arquivo foi gerado
-    - name: List files after comparison
-      run: ls -la bots/comparisons
-
+    
     # mostra diretorio
     - name: Show current directory
       run: pwd
