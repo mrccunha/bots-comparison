@@ -62,13 +62,4 @@ jobs:
     
     # mostra diretorio
     - name: List files in bots directory
-      run: ls -la 
-
-    # Faz o commit do arquivo na branch gh-pages
-    - name: Commit comparison result
-      run: |
-        git config --local user.email "mrccunha@gmail.com"
-        git config --local user.name "Mauro Cunha"
-        git add bot_comparison_prod_vs_homolog.json
-        git commit -m "Adiciona resultado da comparação entre bots de produção e homologação"
-        git push origin gh-pages
+      run: ls -la
