@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparação Lado a Lado</title>
+    <title>Comparação de Bots</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff/5.0.0/diff.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,69 +13,89 @@
             background-color: #f9f9f9;
         }
         .container {
-            display: flex;
-            max-width: 1200px;
+            max-width: 800px;
             margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .file-container {
-            width: 50%;
-            padding: 10px;
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .diff-item {
+            padding: 15px;
+            margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-right: 10px;
-            background-color: #fff;
-            overflow-y: auto;
-            height: 80vh; /* Altura fixa com rolagem */
+            transition: background-color 0.3s;
         }
-        .file-container:last-child {
-            margin-right: 0; /* Remove a margem do último */
+        .diff-item:hover {
+            background-color: #f0f0f0;
         }
-        .title {
+        .path {
             font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        pre {
-            white-space: pre-wrap; /* Preserve espaços e quebras de linha */
-            font-family: monospace;
+            color: #333;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="file-container" id="production-file">
-        <div class="title">Bot em Produção</div>
-        <pre id="production-content">Carregando...</pre>
-    </div>
-    <div class="file-container" id="homolog-file">
-        <div class="title">Bot em Homologação</div>
-        <pre id="homolog-content">Carregando...</pre>
-    </div>
+    <h1>Comparação de Bots</h1>
+    <div id="comparison-result"></div>
 </div>
 
 <script>
-    // Função para carregar o conteúdo dos arquivos e exibi-los lado a lado
-    function loadFile(filePath, elementId) {
-        fetch(filePath)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro ao carregar ${filePath}: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById(elementId).textContent = JSON.stringify(data, null, 4);
-            })
-            .catch(error => {
-                console.error(error);
-                document.getElementById(elementId).textContent = 'Erro ao carregar o arquivo.';
-            });
+    // Função para carregar e exibir as diferenças
+    function displayDiffs(diffs) {
+        const resultContainer = document.getElementById('comparison-result');
+        resultContainer.innerHTML = '';  // Limpar o conteúdo anterior
+
+        diffs.forEach(diff => {
+            const diffItem = document.createElement('div');
+            diffItem.classList.add('diff-item');
+            
+            const path = document.createElement('div');
+            path.classList.add('path');
+            path.textContent = `Caminho: ${diff.path.join(' -> ')}`;
+            
+            diffItem.appendChild(path);
+            
+            let colorDiff;
+            if (diff.kind === 'A') {
+                colorDiff = diff.item.rhs;  // Adições
+            } else if (diff.kind === 'E') {
+                // Edições: comparar lhs e rhs
+                const lhs = JSON.stringify(diff.lhs, null, 2);
+                const rhs = JSON.stringify(diff.rhs, null, 2);
+                colorDiff = Diff.diffLines(lhs, rhs).map(part => {
+                    const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+                    return `<span style="color:${color};">${part.value}</span>`;
+                }).join('');
+            } else if (diff.kind === 'D') {
+                colorDiff = diff.lhs;  // Remoções
+            }
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.innerHTML = colorDiff; // Adicionar o conteúdo estilizado
+            diffItem.appendChild(contentDiv);
+            
+            resultContainer.appendChild(diffItem);
+        });
     }
 
-    // Carregar os arquivos de produção e homologação
-    loadFile('export_builder_prod.json', 'production-content');
-    loadFile('export_builder_homolog.json', 'homolog-content');
+    // Carregar o arquivo JSON e exibir as diferenças
+    fetch('bot_comparison_prod_vs_homolog.json')
+        .then(response => response.json())
+        .then(data => {
+            displayDiffs(data);
+        })
+        .catch(error => {
+            console.error('Erro ao carregar o arquivo JSON:', error);
+            document.getElementById('comparison-result').textContent = 'Erro ao carregar as diferenças.';
+        });
 </script>
 
 </body>
