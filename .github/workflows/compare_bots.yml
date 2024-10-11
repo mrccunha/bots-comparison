@@ -60,6 +60,24 @@ jobs:
         name: bot-comparison-prod-vs-homolog
         path: bots/bot_comparison_prod_vs_homolog.json
 
+    # Mover o arquivo de homolog para um local temporário
+    - name: Save result comparison
+      run: mv bots/bot_comparison_prod_vs_homolog.json /tmp/bot_comparison_prod_vs_homolog.json
+
+    # Checkout da branch de pages (gh-pages)
+    - name: Check out staging bot from gh-pages
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages  # Faz o checkout da branch de páginas (gh-pages)
+
+    # Mover o arquivo de produção de volta para o diretório de trabalho
+    - name: Retrieve production bot
+      run: mv /tmp/bot_comparison_prod_vs_homolog.json ./bot_comparison_prod_vs_homolog.json
+    
     # Listar arquivos no workflow
-    - name: List files after comparison
-      run: ls -la bots
+    - name: List files after change branchs
+      run: ls -la
+
+    # Copiar o arquivo de homologação para o diretório de trabalho
+    #- name: Copy staging bot
+    #  run: cp bots/export_builder_homolog.json ./export_builder_homolog.json
