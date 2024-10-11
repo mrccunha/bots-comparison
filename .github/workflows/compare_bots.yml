@@ -62,4 +62,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: bot-comparison-prod-vs-homolog
-        path: bot_comparison_prod_vs_homolog.json
+        path: bots/bot_comparison_prod_vs_homolog.json
