@@ -62,7 +62,7 @@ jobs:
     
     # mostra diretorio
     - name: List files in bots directory
-      run: ls -la bots/comparisons
+      run: ls -la /home/runner/work/bots-comparison/bots-comparison/bots
 
     # Faz o commit do arquivo na branch gh-pages
     - name: Commit comparison result
