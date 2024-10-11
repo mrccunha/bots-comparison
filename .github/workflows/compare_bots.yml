@@ -55,7 +55,7 @@ jobs:
 
     # Listar arquivos no workflow
     - name: List files after comparison
-      run: ls -la
+      run: ls -la bots
 
     # Fazer upload do resultado da comparação
     - name: Upload comparison result
