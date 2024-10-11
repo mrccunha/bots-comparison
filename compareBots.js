@@ -3,7 +3,7 @@ const path = require('path');
 const deepDiff = require('deep-diff');
 const base64 = require('js-base64').Base64;
 
-const outputPath = 'bots/comparisons/bot_comparison_prod_vs_homolog.json';
+const outputPath = 'bots/bot_comparison_prod_vs_homolog.json';
 
 const dir = path.dirname(outputPath);
 if (!fs.existsSync(dir)) {
