@@ -58,7 +58,7 @@
     function loadFile(filePath, elementId) {
         fetch(filePath)
             .then(response => {
-                console.log(`Status do carregamento de ${filePath}: ${response.status}`); // Log do status
+                //console.log(`Status do carregamento de ${filePath}: ${response.status}`); // Log do status
                 if (!response.ok) {
                     throw new Error(`Erro ao carregar ${filePath}: ${response.statusText}`);
                 }
