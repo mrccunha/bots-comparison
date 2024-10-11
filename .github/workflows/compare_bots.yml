@@ -53,13 +53,13 @@ jobs:
     - name: Run bot comparison script
       run: node compareBots.js
 
-    # Listar arquivos no workflow
-    - name: List files after comparison
-      run: ls -la bots
-
     # Fazer upload do resultado da comparação
     - name: Upload comparison result
       uses: actions/upload-artifact@v4
       with:
         name: bot-comparison-prod-vs-homolog
         path: bots/bot_comparison_prod_vs_homolog.json
+
+    # Listar arquivos no workflow
+    - name: List files after comparison
+      run: ls -la 
