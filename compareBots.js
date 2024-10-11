@@ -1,7 +1,14 @@
 const fs = require('fs');
+const path = require('path');
 const deepDiff = require('deep-diff');
 const base64 = require('js-base64').Base64;
 
+const outputPath = 'bots/comparisons/bot_comparison_prod_vs_homolog.json';
+
+const dir = path.dirname(outputPath);
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true })
+}
 // Função para carregar e decodificar o bot
 function loadAndDecodeBot(filePath) {
   const botData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -25,24 +32,13 @@ function normalizeBotData(decodedDialogs) {
 
       // Remover atributos visuais que não impactam o comportamento
       if (cell.attrs) {
-        delete cell.attrs.label?.text;
-        delete cell.attrs.title?.text;
-        delete cell.attrs.body?.stroke;
-        delete cell.attrs.body?.filter;
-      }
-
-      // Remover atributos de eventos ou ícones desnecessários
-      if (cell.attrs) {
-        delete cell.attrs.icon1;
-        delete cell.attrs.icon2;
-        delete cell.attrs.icon3;
-        delete cell.attrs.icon4;
-        delete cell.attrs.icon5;
+        delete cell.attrs
       }
 
       if (cell.events) {
         delete cell.events;
       }
+
     });
   });
   return decodedDialogs;
@@ -61,7 +57,7 @@ const diff = deepDiff(botProdNormalized, botHomologNormalized);
 
 // Verificar se há diferenças
 if (diff) {
-  fs.writeFileSync('bot_comparison_prod_vs_homolog.json', JSON.stringify(diff, null, 4));
+  fs.writeFileSync(outputPath, JSON.stringify(diff, null, 4));
   //fs.writeFileSync('bot_normalized_1.json', JSON.stringify(botProdNormalized, null, 4));
   //fs.writeFileSync('bot_normalized_2.json', JSON.stringify(botHomologNormalized, null, 4));
   //fs.writeFileSync('botDialogs_1.json', JSON.stringify(botProdDialogs, null, 4));
