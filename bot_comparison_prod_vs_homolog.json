@@ -1,0 +1,405 @@
+[
+    {
+        "kind": "A",
+        "path": [
+            0,
+            "config",
+            "cells"
+        ],
+        "index": 6,
+        "item": {
+            "kind": "D",
+            "lhs": {
+                "z": 7,
+                "type": "standard.Link",
+                "attrs": {
+                    "line": {
+                        "stroke": "#2a5993"
+                    }
+                },
+                "title": "Comparação",
+                "labels": [
+                    {
+                        "attrs": {
+                            "rect": {
+                                "strokeWidth": 0
+                            },
+                            "text": {
+                                "text": "Comparação",
+                                "stroke": "#7DC4FD",
+                                "strokeWidth": 1
+                            }
+                        }
+                    }
+                ],
+                "router": {
+                    "name": "manhattan"
+                },
+                "source": {
+                    "id": "9c41c350-4e6e-4cda-95fc-b4bda51d325f"
+                },
+                "target": {
+                    "id": "85d9f3f9-68bd-4838-8cee-73db5cccbbc5"
+                },
+                "vertices": [],
+                "connector": {
+                    "name": "jumpover",
+                    "size": 10
+                }
+            }
+        }
+    },
+    {
+        "kind": "A",
+        "path": [
+            0,
+            "config",
+            "cells"
+        ],
+        "index": 5,
+        "item": {
+            "kind": "D",
+            "lhs": {
+                "z": 6,
+                "name": "node_b6004e2b9cf6983e",
+                "type": "altu.DialogNode",
+                "angle": 0,
+                "attrs": {
+                    "body": {
+                        "strokeWidth": "1px"
+                    },
+                    "label": {
+                        "fill": "#3E4157",
+                        "font-size": "10px",
+                        "fontWeight": "bold",
+                        "text-length": "100px",
+                        "length-adjust": "spacingAndGlyphs"
+                    },
+                    "title": {},
+                    "button": {
+                        "fill": "white",
+                        "stroke": "transparent"
+                    },
+                    "buttonText": {
+                        "fill": "#2a5993",
+                        "display": "none"
+                    },
+                    "buttonLabel": {
+                        "fill": "#2a5993",
+                        "stroke": "transparent"
+                    },
+                    "buttonStart": {
+                        "fill": "#ffffff"
+                    },
+                    "lineUnderTitle": {
+                        "display": "block"
+                    }
+                },
+                "input": null,
+                "slots": null,
+                "title": "Compara",
+                "config": {
+                    "ai": false,
+                    "slots": false,
+                    "conditional": false
+                },
+                "events": null,
+                "output": [
+                    {
+                        "default": {
+                            "text": "Teste de comparação",
+                            "type": "text"
+                        }
+                    }
+                ],
+                "actions": null,
+                "comment": "",
+                "next_step": [
+                    {
+                        "condition": "true",
+                        "dialog_node": "",
+                        "conditions_name": ""
+                    }
+                ],
+                "variables": null,
+                "entry_point": "",
+                "conditional_responses": null
+            }
+        }
+    },
+    {
+        "kind": "N",
+        "path": [
+            0,
+            "config",
+            "cells",
+            4,
+            "labels",
+            0,
+            "attrs",
+            "text",
+            "stroke"
+        ],
+        "rhs": "#7DC4FD"
+    },
+    {
+        "kind": "N",
+        "path": [
+            0,
+            "config",
+            "cells",
+            4,
+            "labels",
+            0,
+            "attrs",
+            "text",
+            "strokeWidth"
+        ],
+        "rhs": 1
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            2,
+            "labels",
+            0,
+            "attrs",
+            "text",
+            "text"
+        ],
+        "lhs": "Senão",
+        "rhs": ""
+    },
+    {
+        "kind": "N",
+        "path": [
+            0,
+            "config",
+            "cells",
+            2,
+            "labels",
+            0,
+            "attrs",
+            "text",
+            "stroke"
+        ],
+        "rhs": "#7DC4FD"
+    },
+    {
+        "kind": "N",
+        "path": [
+            0,
+            "config",
+            "cells",
+            2,
+            "labels",
+            0,
+            "attrs",
+            "text",
+            "strokeWidth"
+        ],
+        "rhs": 1
+    },
+    {
+        "kind": "N",
+        "path": [
+            0,
+            "config",
+            "cells",
+            2,
+            "labels",
+            0,
+            "attrs",
+            "rect"
+        ],
+        "rhs": {
+            "strokeWidth": 0
+        }
+    },
+    {
+        "kind": "D",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "body",
+            "fill"
+        ],
+        "lhs": "#ffffff"
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "button",
+            "fill"
+        ],
+        "lhs": "#798195",
+        "rhs": "white"
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "buttonText",
+            "fill"
+        ],
+        "lhs": "#ffffff",
+        "rhs": "#2a5993"
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "buttonLabel",
+            "fill"
+        ],
+        "lhs": "#ffffff",
+        "rhs": "#2a5993"
+    },
+    {
+        "kind": "D",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "buttonStart",
+            "display"
+        ],
+        "lhs": "block"
+    },
+    {
+        "kind": "D",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "startCircle"
+        ],
+        "lhs": {
+            "display": "block"
+        }
+    },
+    {
+        "kind": "D",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "entrypointIcon"
+        ],
+        "lhs": {
+            "display": "block"
+        }
+    },
+    {
+        "kind": "D",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "attrs",
+            "iconEntrypoint"
+        ],
+        "lhs": {
+            "display": "block"
+        }
+    },
+    {
+        "kind": "A",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "next_step"
+        ],
+        "index": 1,
+        "item": {
+            "kind": "D",
+            "lhs": {
+                "condition": "true",
+                "dialog_node": "node_e1d2d6675742686a",
+                "conditions_name": ""
+            }
+        }
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "next_step",
+            0,
+            "condition"
+        ],
+        "lhs": "1 == 2",
+        "rhs": "true"
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "next_step",
+            0,
+            "dialog_node"
+        ],
+        "lhs": "node_b6004e2b9cf6983e",
+        "rhs": "node_e1d2d6675742686a"
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "next_step",
+            0,
+            "conditions_name"
+        ],
+        "lhs": "Comparação",
+        "rhs": ""
+    },
+    {
+        "kind": "E",
+        "path": [
+            0,
+            "config",
+            "cells",
+            0,
+            "entry_point"
+        ],
+        "lhs": "start",
+        "rhs": ""
+    }
+]
