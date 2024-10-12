@@ -1,0 +1,280 @@
+[
+    {
+        "name": "Fluxo",
+        "config": {
+            "cells": [
+                {
+                    "z": 1,
+                    "name": "node_e291dffc61f7e68d",
+                    "type": "altu.DialogNode",
+                    "angle": 0,
+                    "input": {
+                        "default": {
+                            "type": "text_input",
+                            "payload": {
+                                "mask": "cellphone|cep|cpf|cpf_cnpj|numeric|email|money|vehicle_plate|password",
+                                "mode": "textarea"
+                            }
+                        }
+                    },
+                    "slots": null,
+                    "title": "Início",
+                    "config": {
+                        "ai": false,
+                        "slots": false,
+                        "conditional": false
+                    },
+                    "output": [
+                        {
+                            "default": {
+                                "text": "mensagem",
+                                "type": "text"
+                            }
+                        }
+                    ],
+                    "actions": [
+                        {
+                            "name": "http_request",
+                            "parameters": {
+                                "config": {
+                                    "url": "https://api.altu.com.br/teste",
+                                    "data": {
+                                        "param1": "value1",
+                                        "param2": "value2",
+                                        "param3": "<? $var_contexto ?>"
+                                    },
+                                    "method": "POST",
+                                    "headers": {
+                                        "Authorization": "meu_token"
+                                    }
+                                },
+                                "flavor": "axios",
+                                "before_action_messages": [
+                                    "Mensagem 1",
+                                    "Mensagem 2"
+                                ]
+                            },
+                            "result_variable": "api_response"
+                        }
+                    ],
+                    "comment": "",
+                    "next_step": [
+                        {
+                            "condition": "1 == 2",
+                            "dialog_node": "node_b6004e2b9cf6983e",
+                            "conditions_name": "Comparação"
+                        },
+                        {
+                            "condition": "true",
+                            "dialog_node": "node_e1d2d6675742686a",
+                            "conditions_name": ""
+                        }
+                    ],
+                    "variables": {
+                        "contact": {
+                            "atributo": "valor"
+                        },
+                        "context": {
+                            "var_contexto": "valor"
+                        }
+                    },
+                    "entry_point": "start",
+                    "conditional_responses": null
+                },
+                {
+                    "z": 2,
+                    "name": "node_e1d2d6675742686a",
+                    "type": "altu.DialogNode",
+                    "angle": 0,
+                    "input": null,
+                    "slots": null,
+                    "title": "1 - Teste 01",
+                    "config": {
+                        "ai": false,
+                        "slots": false,
+                        "conditional": false
+                    },
+                    "events": null,
+                    "output": null,
+                    "actions": null,
+                    "comment": "",
+                    "next_step": [
+                        {
+                            "condition": "true",
+                            "dialog_node": "node_bd2474f393b400b1",
+                            "conditions_name": ""
+                        }
+                    ],
+                    "variables": null,
+                    "entry_point": "",
+                    "conditional_responses": null
+                },
+                {
+                    "z": 3,
+                    "type": "standard.Link",
+                    "title": "true",
+                    "labels": [
+                        {
+                            "attrs": {
+                                "text": {
+                                    "text": "Senão"
+                                }
+                            }
+                        }
+                    ],
+                    "router": {
+                        "name": "manhattan"
+                    },
+                    "source": {
+                        "id": "9c41c350-4e6e-4cda-95fc-b4bda51d325f"
+                    },
+                    "target": {
+                        "id": "9f0305d3-5534-4afe-9c30-b89baf2da2ae"
+                    },
+                    "vertices": [],
+                    "connector": {
+                        "name": "jumpover",
+                        "size": 10
+                    }
+                },
+                {
+                    "z": 4,
+                    "name": "node_bd2474f393b400b1",
+                    "type": "altu.DialogNode",
+                    "angle": 0,
+                    "input": null,
+                    "slots": null,
+                    "title": "2 -Teste 02",
+                    "config": {
+                        "ai": false,
+                        "slots": false,
+                        "conditional": false
+                    },
+                    "events": null,
+                    "output": null,
+                    "actions": [
+                        {
+                            "name": "end_chat",
+                            "parameters": {},
+                            "result_variable": "response"
+                        }
+                    ],
+                    "comment": "",
+                    "next_step": [
+                        {
+                            "condition": "true",
+                            "dialog_node": "",
+                            "conditions_name": ""
+                        }
+                    ],
+                    "variables": null,
+                    "entry_point": "",
+                    "conditional_responses": null
+                },
+                {
+                    "z": 5,
+                    "type": "standard.Link",
+                    "title": "true",
+                    "labels": [
+                        {
+                            "attrs": {
+                                "rect": {
+                                    "strokeWidth": 0
+                                },
+                                "text": {
+                                    "text": ""
+                                }
+                            }
+                        }
+                    ],
+                    "router": {
+                        "name": "manhattan"
+                    },
+                    "source": {
+                        "id": "9f0305d3-5534-4afe-9c30-b89baf2da2ae"
+                    },
+                    "target": {
+                        "id": "81c10ad9-d6d9-4a3e-82df-684e8a143e53"
+                    },
+                    "vertices": [],
+                    "connector": {
+                        "name": "jumpover",
+                        "size": 10
+                    }
+                },
+                {
+                    "z": 6,
+                    "name": "node_b6004e2b9cf6983e",
+                    "type": "altu.DialogNode",
+                    "angle": 0,
+                    "input": null,
+                    "slots": null,
+                    "title": "Compara",
+                    "config": {
+                        "ai": false,
+                        "slots": false,
+                        "conditional": false
+                    },
+                    "events": null,
+                    "output": [
+                        {
+                            "default": {
+                                "text": "Teste de comparação",
+                                "type": "text"
+                            }
+                        }
+                    ],
+                    "actions": null,
+                    "comment": "",
+                    "next_step": [
+                        {
+                            "condition": "true",
+                            "dialog_node": "",
+                            "conditions_name": ""
+                        }
+                    ],
+                    "variables": null,
+                    "entry_point": "",
+                    "conditional_responses": null
+                },
+                {
+                    "z": 7,
+                    "type": "standard.Link",
+                    "title": "Comparação",
+                    "labels": [
+                        {
+                            "attrs": {
+                                "rect": {
+                                    "strokeWidth": 0
+                                },
+                                "text": {
+                                    "text": "Comparação",
+                                    "stroke": "#7DC4FD",
+                                    "strokeWidth": 1
+                                }
+                            }
+                        }
+                    ],
+                    "router": {
+                        "name": "manhattan"
+                    },
+                    "source": {
+                        "id": "9c41c350-4e6e-4cda-95fc-b4bda51d325f"
+                    },
+                    "target": {
+                        "id": "85d9f3f9-68bd-4838-8cee-73db5cccbbc5"
+                    },
+                    "vertices": [],
+                    "connector": {
+                        "name": "jumpover",
+                        "size": 10
+                    }
+                }
+            ],
+            "dimensions": {
+                "width": 2000,
+                "height": 2000
+            }
+        }
+    }
+]
