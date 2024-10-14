@@ -12,7 +12,7 @@
                         "default": {
                             "type": "text_input",
                             "payload": {
-                                "mask": "cellphone|cep|cpf|cpf_cnpj|numeric|email|money|vehicle_plate|password",
+                                "mask": "cellphone|cep|cpf|cpf_cnpj|numeric|email|money|vehicle_plate",
                                 "mode": "textarea"
                             }
                         }
