@@ -5,45 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comparação de Bots Produção / Homologação</title>
     
-        <!-- Inclua o jQuery primeiro -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Inclua o jQuery primeiro -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-        <!-- Em seguida, inclua o CodeMirror -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <!-- Em seguida, inclua o CodeMirror -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
 
-        <!-- Por fim, inclua o Mergely do jsDelivr CDN -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mergely@4.0.0/lib/mergely.css">
-        <script src="https://cdn.jsdelivr.net/npm/mergely@4.0.0/lib/mergely.js"></script>
+    <!-- Por fim, inclua o Mergely do jsDelivr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mergely@4.0.0/lib/mergely.css">
+    <script src="https://cdn.jsdelivr.net/npm/mergely@4.0.0/lib/mergely.js"></script>
     
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                background-color: #f9f9f9;
-            }
-            .container {
-                max-width: 100%;
-                margin: auto;
-                padding: 20px;
-            }
-            #mergely {
-                height: 100vh; /* Aumentar a altura do Mergely */
-                width: 100%;   /* Largura ocupando 100% */
-                border: 1px solid #ddd;
-            }
-            h1 {
-                text-align: center;
-                color: #333;
-            }
-        </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 100%;
+            margin: auto;
+            padding: 20px;
+        }
+        #mergely {
+            height: 90vh; /* Aumentar a altura do Mergely */
+            width: 100%;   /* Largura ocupando 100% */
+            border: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .loading {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .header div {
+            font-weight: bold;
+            color: #333;
+        }
+        .lhs-label {
+            color: #007bff; /* Azul para Produção */
+        }
+        .rhs-label {
+            color: #28a745; /* Verde para Homologação */
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Comparação de Bots</h1>
+    <h1>Comparação de Bots: Produção vs Homologação</h1>
+
+    <div class="header">
+        <div class="lhs-label">Produção</div>
+        <div class="rhs-label">Homologação</div>
+    </div>
+
     <!-- Contêiner onde o Mergely será renderizado -->
     <div id="mergely"></div>
+
+    <div id="loading" class="loading">Carregando arquivos, por favor aguarde...</div>
 </div>
 
 <script>
@@ -57,7 +86,7 @@
                 return response.json();
             })
             .then(data => {
-                callback(JSON.stringify(data, null, 4)); // Formatando JSON com identação
+                callback(JSON.stringify(data, null, 4)); // Formatando JSON com indentação
             })
             .catch(error => {
                 console.error(error);
@@ -68,7 +97,7 @@
     // Inicializar Mergely após carregar os arquivos
     function initializeMergely(leftContent, rightContent) {
         $('#mergely').mergely({
-            cmsettings: { readOnly: false }, // Definir como somente leitura
+            cmsettings: { readOnly: false }, // Definir como editável (ajustar conforme necessário)
             lhs: function(setValue) {
                 setValue(leftContent); // Conteúdo do arquivo de produção (lado esquerdo)
             },
@@ -79,14 +108,21 @@
     }
 
     $(document).ready(function() {
-            // Carregar os arquivos JSON e inicializar Mergely após o DOM estar pronto
+        // Mostrar mensagem de carregamento
+        $('#loading').show();
+
+        // Carregar os arquivos JSON e inicializar Mergely após o DOM estar pronto
         loadJSONFile('/bots-comparison/bots/production/export_builder_prod.json', prodContent => {
             loadJSONFile('/bots-comparison/bots/staging/export_builder_homolog.json', homologContent => {
                 if (prodContent && homologContent) {
+                    // Ocultar mensagem de carregamento após os arquivos serem carregados
+                    $('#loading').hide();
+
                     // Inicializar Mergely com o conteúdo dos dois arquivos
                     initializeMergely(prodContent, homologContent);
                 } else {
                     console.error('Erro ao carregar os arquivos JSON.');
+                    $('#loading').text('Erro ao carregar os arquivos.');
                 }
             });
         });
