@@ -23,12 +23,12 @@
                 background-color: #f9f9f9;
             }
             .container {
-                max-width: 1200px;
+                max-width: 100%;
                 margin: auto;
                 padding: 20px;
             }
             #mergely {
-                height: 100%; /* Aumentar a altura do Mergely */
+                height: 100vh; /* Aumentar a altura do Mergely */
                 width: 100%;   /* Largura ocupando 100% */
                 border: 1px solid #ddd;
             }
@@ -68,7 +68,7 @@
     // Inicializar Mergely após carregar os arquivos
     function initializeMergely(leftContent, rightContent) {
         $('#mergely').mergely({
-            cmsettings: { readOnly: true }, // Definir como somente leitura
+            cmsettings: { readOnly: false }, // Definir como somente leitura
             lhs: function(setValue) {
                 setValue(leftContent); // Conteúdo do arquivo de produção (lado esquerdo)
             },
