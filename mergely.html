@@ -72,15 +72,17 @@
         });
     }
 
-    // Carregar os arquivos JSON de produção e homologação
-    loadJSONFile('/bots-comparison/bots/production/export_builder_prod.json', prodContent => {
-        loadJSONFile('/bots-comparison/bots/staging/export_builder_homolog.json', homologContent => {
-            if (prodContent && homologContent) {
-                // Inicializar Mergely com o conteúdo dos dois arquivos
-                initializeMergely(prodContent, homologContent);
-            } else {
-                console.error('Erro ao carregar os arquivos JSON.');
-            }
+    $(document).ready(function() {
+            // Carregar os arquivos JSON e inicializar Mergely após o DOM estar pronto
+        loadJSONFile('/bots-comparison/bots/production/export_builder_prod.json', prodContent => {
+            loadJSONFile('/bots-comparison/bots/staging/export_builder_homolog.json', homologContent => {
+                if (prodContent && homologContent) {
+                    // Inicializar Mergely com o conteúdo dos dois arquivos
+                    initializeMergely(prodContent, homologContent);
+                } else {
+                    console.error('Erro ao carregar os arquivos JSON.');
+                }
+            });
         });
     });
 </script>
