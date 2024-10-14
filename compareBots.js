@@ -9,17 +9,45 @@ const dir = path.dirname(outputPath);
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir, { recursive: true })
 }
+
+
 // Função para carregar e decodificar o bot
 function loadAndDecodeBot(filePath) {
-  const botData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  // Carregar o arquivo
+  return fetch(filePath)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`Erro ao carregar o arquivo: ${response.statusText}`);
+          }
+          return response.text(); // Lê como texto
+      })
+      .then(content => {
+          const jsonPartEnd = content.lastIndexOf('}');
+          const base64PartStart = content.lastIndexOf('["eyJuYW1l"'); // Identifica onde começa a parte base64
 
-  // Decodificar os diálogos
-  const decodedDialogs = botData.dialogs.map(encodedDialog => {
-    const decoded = base64.decode(encodedDialog);
-    return JSON.parse(decoded);  // Converter a string JSON decodificada em objeto JavaScript
-  });
+          // Separa a parte inicial e a parte em base64
+          const initialPart = content.substring(0, base64PartStart); // Parte inicial
+          const base64Part = content.substring(base64PartStart); // Parte em base64
 
-  return decodedDialogs;
+          // Decodifica a parte em base64
+          let decodedDialogs = {};
+          if (base64Part) {
+              // Remove qualquer "nova linha" e espaços em branco
+              const cleanedBase64 = base64Part.replace(/[\r\n]+/g, '');
+              const decodedString = atob(cleanedBase64); // Decodifica de base64 para string
+              decodedDialogs = JSON.parse(decodedString); // Converte para JSON
+          }
+
+          // Retorna o JSON combinado
+          return {
+              initial: JSON.parse(initialPart), // Parte inicial como objeto JSON
+              dialogs: decodedDialogs // Parte decodificada
+          };
+      })
+      .catch(error => {
+          console.error('Erro ao processar o bot:', error);
+          return null; // Retorna null em caso de erro
+      });
 }
 
 // Função para normalizar os dados e remover campos irrelevantes
@@ -45,7 +73,13 @@ function normalizeBotData(decodedDialogs) {
 }
 
 // Carregar e comparar os arquivos dos bots de produção e homologação
-const botProdDialogs = loadAndDecodeBot('export_builder_prod.json');  // Arquivo do bot de produção
+const botProdDialogs = loadAndDecodeBot('export_builder_prod.json').then(result => {
+  if (result) {
+    console.log('Parte Inicial: ', result.initial);
+    console.log('Diálogos Decodificados: ', result.dialogs);
+  }
+});
+
 const botHomologDialogs = loadAndDecodeBot('export_builder_homolog.json');  // Arquivo do bot de homologação
 
 // Normalizar os dados dos bots
