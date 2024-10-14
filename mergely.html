@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparação de Bots com Mergely</title>
+    <title>Comparação de Bots Produção / Homologação</title>
     
     <!-- Incluindo CSS e JS do Mergely -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
@@ -35,7 +35,7 @@
 <body>
 
 <div class="container">
-    <h1>Comparação de Bots com Mergely</h1>
+    <h1>Comparação de Bots</h1>
     <!-- Contêiner onde o Mergely será renderizado -->
     <div id="mergely"></div>
 </div>
@@ -73,8 +73,8 @@
     }
 
     // Carregar os arquivos JSON de produção e homologação
-    loadJSONFile('bots/production/export_builder_prod.json', prodContent => {
-        loadJSONFile('bots/staging/export_builder_homolog.json', homologContent => {
+    loadJSONFile('/mrccunha/bots/production/export_builder_prod.json', prodContent => {
+        loadJSONFile('/mrccunha/bots/staging/export_builder_homolog.json', homologContent => {
             if (prodContent && homologContent) {
                 // Inicializar Mergely com o conteúdo dos dois arquivos
                 initializeMergely(prodContent, homologContent);
