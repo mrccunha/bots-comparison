@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const deepDiff = require('deep-diff');
-// Caso você esteja usando Node.js, você pode precisar de uma biblioteca como axios para fazer fetch de arquivos
-const fetch = require('node-fetch');
 const base64 = require('js-base64').Base64;
 
 const outputPath = 'bots/bot_comparison_prod_vs_homolog.json';
@@ -14,14 +12,12 @@ if (!fs.existsSync(dir)) {
 
 // Função para carregar e decodificar o bot
 function loadAndDecodeBot(filePath) {
-    return fetch(filePath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao carregar o arquivo: ${response.statusText}`);
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, 'utf8', (err, content) => {
+            if (err) {
+                return reject(`Erro ao carregar o arquivo: ${err.message}`);
             }
-            return response.text(); // Lê como texto
-        })
-        .then(content => {
+
             const base64PartStart = content.lastIndexOf('["eyJuYW1l"'); // Identifica onde começa a parte base64
 
             const initialPart = content.substring(0, base64PartStart); // Parte inicial
@@ -36,15 +32,12 @@ function loadAndDecodeBot(filePath) {
             }
 
             // Retorna o JSON combinado
-            return {
+            resolve({
                 initial: JSON.parse(initialPart), // Parte inicial como objeto JSON
                 dialogs: decodedDialogs // Parte decodificada
-            };
-        })
-        .catch(error => {
-            console.error('Erro ao processar o bot:', error);
-            return null; // Retorna null em caso de erro
+            });
         });
+    });
 }
 
 // Função para normalizar os dados e remover campos irrelevantes
@@ -89,8 +82,6 @@ Promise.all([
         // Verificar se há diferenças
         if (diff) {
             fs.writeFileSync(outputPath, JSON.stringify(diff, null, 4));
-            fs.writeFileSync('bot_normalized_1.json', JSON.stringify(botProdNormalized, null, 4));
-            fs.writeFileSync('bot_normalized_2.json', JSON.stringify(botHomologNormalized, null, 4));
             console.log("Diferenças encontradas entre os bots de produção e homologação. Resultado salvo em bot_comparison_prod_vs_homolog.json");
         } else {
             console.log("Os bots de produção e homologação são idênticos após a normalização.");
@@ -99,5 +90,5 @@ Promise.all([
         console.error('Erro ao carregar um ou ambos os bots.');
     }
 }).catch(error => {
-    console.error('Erro ao processar os bots: ', error);
+    console.error('Erro ao processar os bots:', error);
 });
