@@ -78,9 +78,9 @@ jobs:
     # Recuperar o arquivo de comparação para o diretório de trabalho
     - name: Recuperar o resultado da comparação
       run: |
-        mv /tmp/bot_comparison_prod_vs_homolog.json ./bot_comparison_prod_vs_homolog.json
-        mv /tmp/bot_normalized_1.json ./bot_normalized_1.json
-        mv /tmp/bot_normalized_2.json ./bot_normalized_2.json 
+        if test -f /tmp/bot_comparison_prod_vs_homolog.json; then mv /tmp/bot_comparison_prod_vs_homolog.json ./bot_comparison_prod_vs_homolog.json
+        if test -f /tmp/bot_normalized_1.json; then mv /tmp/bot_normalized_1.json ./bot_normalized_1.json
+        if test -f /tmp/bot_normalized_2.json; then mv /tmp/bot_normalized_2.json ./bot_normalized_2.json 
       # mv /tmp/bot_comparison_prod_vs_homolog.json ./bot_comparison_prod_vs_homolog.json
     
     # Listar arquivos após a mudança de branch
