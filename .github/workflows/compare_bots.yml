@@ -1,83 +1,77 @@
-name: Compara as versões dos Bots em Produção e Homologação
+name: Comparar versões dos Bots de Produção e Homologação
 
 on:
   push:
     branches:
-      - main  # Produção
       - homolog  # Homologação
   pull_request:
     branches:
-      - main
       - homolog
 
 jobs:
-  compare-bots:
+  comparar-bots:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout da branch de produção (main)
-    - name: Check out production bot from main
+    # Fazer checkout da branch de produção (main)
+    - name: Fazer checkout do bot de produção da main
       uses: actions/checkout@v4
       with:
         ref: main  # Faz o checkout da branch de produção (main)
 
     # Mover o arquivo de produção para um local temporário
-    - name: Save production bot
+    - name: Salvar o bot de produção em local temporário
       run: mv bots/export_builder_prod.json /tmp/export_builder_prod.json
 
-    # Checkout da branch de homologação (homolog)
-    - name: Check out staging bot from homolog
+    # Fazer checkout da branch de homologação (homolog)
+    - name: Fazer checkout do bot de homologação
       uses: actions/checkout@v4
       with:
         ref: homolog  # Faz o checkout da branch de homologação (homolog)
 
-    # Mover o arquivo de produção de volta para o diretório de trabalho
-    - name: Retrieve production bot
+    # Recuperar o arquivo de produção do local temporário para o diretório de trabalho
+    - name: Recuperar o bot de produção
       run: mv /tmp/export_builder_prod.json ./export_builder_prod.json
 
     # Copiar o arquivo de homologação para o diretório de trabalho
-    - name: Copy staging bot
+    - name: Copiar bot de homologação para o diretório de trabalho
       run: cp bots/export_builder_homolog.json ./export_builder_homolog.json
 
     # Instalar Node.js
-    - name: Set up Node.js
+    - name: Instalar Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    # Instalar dependências
-    - name: Install dependencies
+    # Instalar dependências do projeto
+    - name: Instalar dependências
       run: npm install
 
-    # Executar o script de comparação
-    - name: Run bot comparison script
+    # Executar o script de comparação dos bots
+    - name: Executar script de comparação dos bots
       run: node compareBots.js
 
     # Fazer upload do resultado da comparação
-    - name: Upload comparison result
+    - name: Enviar resultado da comparação
       uses: actions/upload-artifact@v4
       with:
         name: bot-comparison-prod-vs-homolog
         path: bots/bot_comparison_prod_vs_homolog.json
 
-    # Mover o arquivo de homolog para um local temporário
-    - name: Save result comparison
+    # Mover o arquivo de comparação para um local temporário
+    - name: Salvar o resultado da comparação em local temporário
       run: mv bots/bot_comparison_prod_vs_homolog.json /tmp/bot_comparison_prod_vs_homolog.json
 
-    # Checkout da branch de pages (gh-pages)
-    - name: Check out staging bot from gh-pages
+    # Fazer checkout da branch de páginas (gh-pages)
+    - name: Fazer checkout da branch gh-pages
       uses: actions/checkout@v4
       with:
         ref: gh-pages  # Faz o checkout da branch de páginas (gh-pages)
 
-    # Mover o arquivo de produção de volta para o diretório de trabalho
-    - name: Retrieve production bot
+    # Recuperar o arquivo de comparação para o diretório de trabalho
+    - name: Recuperar o resultado da comparação
       run: mv /tmp/bot_comparison_prod_vs_homolog.json ./bot_comparison_prod_vs_homolog.json
     
-    # Listar arquivos no workflow
-    - name: List files after change branchs
+    # Listar arquivos após a mudança de branch
+    - name: Listar arquivos após a mudança de branches
       run: ls -la
-
-    # Copiar o arquivo de homologação para o diretório de trabalho
-    #- name: Copy staging bot
-    #  run: cp bots/export_builder_homolog.json ./export_builder_homolog.json
