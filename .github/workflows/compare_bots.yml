@@ -66,13 +66,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: bot_normalized_1
-        path: bot_normalized_1.json
+        path: bots/bot_normalized_1.json
 
     - name: Enviar bot_normalized_2
       uses: actions/upload-artifact@v4
       with:
         name: bot_normalized_2
-        path: bot_normalized_2.jsonS
+        path: bots/bot_normalized_2.jsonS
 
     # Mover o arquivo de comparação para um local temporário
     - name: Salvar o resultado da comparação em local temporário
