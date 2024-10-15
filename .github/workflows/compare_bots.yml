@@ -51,20 +51,24 @@ jobs:
     - name: Executar script de comparação dos bots
       run: node compareBots.js
 
-    # Fazer upload do resultado da comparação
+    # Enviar múltiplos arquivos como artefatos, um por vez
     - name: Enviar resultado da comparação
       uses: actions/upload-artifact@v4
       with:
         name: bot-comparison-prod-vs-homolog
-        path: bots/
+        path: bots/bot_comparison_prod_vs_homolog.json
 
-        #  bots/bot_comparison_prod_vs_homolog.json
-        #  bots/bot_normalized_1.json
-        #  bots/bot_normalized_2.json
+    - name: Enviar bot_normalized_1
+      uses: actions/upload-artifact@v4
+      with:
+        name: bot_normalized_1
+        path: bot_normalized_1.json
 
-    # Listar arquivos após a mudança de branch
-    - name: Listar arquivos após a execução do compareBots
-      run: ls -la bots
+    - name: Enviar bot_normalized_2
+      uses: actions/upload-artifact@v4
+      with:
+        name: bot_normalized_2
+        path: bot_normalized_2.jsonS
 
     # Mover o arquivo de comparação para um local temporário
     - name: Salvar o resultado da comparação em local temporário
