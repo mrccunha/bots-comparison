@@ -63,7 +63,7 @@ jobs:
 
     # Listar arquivos após a mudança de branch
     - name: Listar arquivos após a mudança de branches
-      run: ls -la
+      run: ls -la bots
 
     # Mover o arquivo de comparação para um local temporário
     - name: Salvar o resultado da comparação em local temporário
