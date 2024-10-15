@@ -60,11 +60,14 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: bot-comparison-prod-vs-homolog
-        path: bots/bot_comparison_prod_vs_homolog.json
+        path: |
+          bots/bot_comparison_prod_vs_homolog.json
+          bots/bot_normalized_1.json
+          bots/bot_normalized_2.json
 
     # Mover o arquivo de comparação para um local temporário
     - name: Salvar o resultado da comparação em local temporário
-      run: mv bots/bot_comparison_prod_vs_homolog.json /tmp/bot_comparison_prod_vs_homolog.json
+      run: mv bots/* /tmp/ #mv bots/bot_comparison_prod_vs_homolog.json /tmp/bot_comparison_prod_vs_homolog.json
 
     # Fazer checkout da branch de páginas (gh-pages)
     - name: Fazer checkout da branch gh-pages
@@ -74,7 +77,7 @@ jobs:
 
     # Recuperar o arquivo de comparação para o diretório de trabalho
     - name: Recuperar o resultado da comparação
-      run: mv /tmp/bot_comparison_prod_vs_homolog.json ./bot_comparison_prod_vs_homolog.json
+      run: mv /tmp/* ./ #mv /tmp/bot_comparison_prod_vs_homolog.json ./bot_comparison_prod_vs_homolog.json
     
     # Listar arquivos após a mudança de branch
     - name: Listar arquivos após a mudança de branches
