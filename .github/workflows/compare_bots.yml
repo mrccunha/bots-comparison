@@ -58,6 +58,10 @@ jobs:
         name: bot-comparison-prod-vs-homolog
         path: bots/bot_comparison_prod_vs_homolog.json
 
+    # Listar arquivos após a mudança de branch
+    - name: Listar arquivos após a mudança de branches
+      run: ls -la
+
     - name: Enviar bot_normalized_1
       uses: actions/upload-artifact@v4
       with:
