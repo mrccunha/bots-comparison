@@ -56,10 +56,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: bot-comparison-prod-vs-homolog
-        path: |
-          bots/bot_comparison_prod_vs_homolog.json
-          bots/bot_normalized_1.json
-          bots/bot_normalized_2.json
+        path: bots/
+
+        #  bots/bot_comparison_prod_vs_homolog.json
+        #  bots/bot_normalized_1.json
+        #  bots/bot_normalized_2.json
 
     # Listar arquivos após a mudança de branch
     - name: Listar arquivos após a execução do compareBots
