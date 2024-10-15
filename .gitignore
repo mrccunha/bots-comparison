@@ -1,6 +1,6 @@
 # Ignorar diretórios
 node_modules/
-.github/workflows/
+#.github/workflows/
 
 # Ignorar arquivos de pacotes, se não for necessário
 package.json

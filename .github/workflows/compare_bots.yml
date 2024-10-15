@@ -37,6 +37,10 @@ jobs:
     - name: Copiar bot de homologação para o diretório de trabalho
       run: cp bots/export_builder_homolog.json ./export_builder_homolog.json
 
+    # Listar arquivos após a mudança de branch
+    - name: Listar arquivos após a mudança de branches
+      run: ls -la
+
     # Instalar Node.js
     - name: Instalar Node.js
       uses: actions/setup-node@v4
